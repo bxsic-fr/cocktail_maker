@@ -36,9 +36,16 @@
         return $result->fetch_assoc();
     }
 
+    function get_cocktail_by_id($id) {
+        global $conn;
+        $sql = "SELECT * FROM cocktails WHERE id = $id";
+        $result = $conn->query($sql);
+        return $result->fetch_assoc();
+    }
+
     function get_proccess_cocktail($name) {
         global $conn;
-        $sql = "SELECT * FROM proccess WHERE cocktail_name = $name";
+        $sql = "SELECT proccess FROM cocktails WHERE name = $name";
         $result = $conn->query($sql);
         return $result->fetch_assoc();
     }

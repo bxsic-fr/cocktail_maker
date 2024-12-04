@@ -8,7 +8,12 @@
   ini_set('display_startup_errors', 1);
   error_reporting(E_ALL);
 
-  $random_cocktail = get_random_cocktail();
+  if (isset($_COOKIE["cocktail_id"])) {
+    $random_cocktail = get_cocktail_by_id($_COOKIE["cocktail_id"]);
+  } else {
+    $random_cocktail = get_random_cocktail();
+    setcookie("cocktail_id", $random_cocktail["id"], time() + 3600);
+  }
   $elements = getall_elements();
   
 ?>
@@ -25,7 +30,7 @@
 <body>
   <div class="container">
     <header>
-      <h1>Cocktail name</h1>
+      <h1>Cocktail : <u><?php echo $random_cocktail["name"] ?></u></h1>
       <button id="generate-button">Generate new</button>
     </header>
     <main>
@@ -60,23 +65,24 @@
         <div class="methods">
           <label><input type="radio" name="method" value="fill"> Fill</label>
           <label><input type="radio" name="method" value="top"> Top</label>
-            <label>Dash 
-            <button type="button" onclick="changeDash(-1)">-</button>
-            <input type="number" id="dash-quantity" name="method" value="0" min="0">
-            <button type="button" onclick="changeDash(1)">+</button>
-            </label>
-            <script>
-            function changeDash(amount) {
-            var input = document.getElementById('dash-quantity');
-            var currentValue = parseInt(input.value);
-            if (!isNaN(currentValue)) {
-            input.value = Math.max(0, currentValue + amount);
-            }
-            }
-            </script>
+          <label>Dash 
+          <button type="button" onclick="changeDash(-1)">-</button>
+          <input type="number" id="dash-quantity" name="method" value="0" min="0">
+          <button type="button" onclick="changeDash(1)">+</button>
+          </label>
+          <script>
+          function changeDash(amount) {
+          var input = document.getElementById('dash-quantity');
+          var currentValue = parseInt(input.value);
+          if (!isNaN(currentValue)) {
+          input.value = Math.max(0, currentValue + amount);
+          }
+          }
+          </script>
           <label>Barspoon 
           <button type="button" onclick="changeBarspoon(-1)">-</button>
-          <input type="number" id="barspoon-quantity" name="method" value="0" min="0">
+          <!-- Si barspoon-quantity > 0, alors check game 3eme elmt auto "spoon" same pour dash ("DryVermouth", "1", "spoon") | sinon 0 pour 3eme elm (process) -->
+          <input type="number" id="barspoon-quantity" name="method" value="0" min="0"> 
           <button type="button" onclick="changeBarspoon(1)">+</button>
           </label>
           <script>
