@@ -72,7 +72,7 @@ label {
 }
 
 input[type=number] {
-  width: 80px;
+  width: 30px;
   padding: 5px;
   margin-right: 10px;
 }
@@ -86,4 +86,10 @@ footer {
   color: #6c757d;
   margin-top: 20px;
   text-align: center;
+}
+
+.element button {
+  width: 150px; 
+  height: 150px; 
+  overflow: hidden;
 }

@@ -9,6 +9,8 @@
   error_reporting(E_ALL);
 
   $random_cocktail = get_random_cocktail();
+  $elements = getall_elements();
+  
 ?>
 
 <!-- Merci ChatGPT -->
@@ -28,13 +30,28 @@
     </header>
     <main>
       <section class="ingredients-grid">
-        <button>Rhum</button>
-        <button>Vodka</button>
-        <button>Coca Cola</button>
-        <button>Orange juice</button>
-        <button>Strawberry syrup</button>
-        <!-- Repeat the above buttons to match the layout -->
-        <!-- Use JavaScript to dynamically generate these if needed -->
+        <?php
+            foreach ($elements as $element) {
+            echo '<div class="element">';
+            echo '<button type="button" class="element-button" onclick="selectElement(\'' . $element['name'] . '\', \'' . $element['photo'] . '\')">';
+            echo '<img src="' . $element['photo'] . '" alt="' . $element['name'] . '" style="width: 80%; height: auto;">';
+            echo '</button>';
+            echo '</div>';
+            };
+        ?>
+        <div id="selected-element" style="margin-top: 20px;">
+          <h3>Selected Element:</h3>
+          <p id="selected-element-name">None</p>
+          <img id="selected-element-photo" src="" alt="" style="width: 40%; height: auto; display: none;">
+        </div>
+        <script>
+          function selectElement(name, photo) {
+            document.getElementById('selected-element-name').innerText = name;
+            var photoElement = document.getElementById('selected-element-photo');
+            photoElement.src = photo;
+            photoElement.style.display = 'block';
+          }
+        </script>
       </section>
       <section class="elements">
         <h2>ELEMENTS</h2>
@@ -43,26 +60,54 @@
         <div class="methods">
           <label><input type="radio" name="method" value="fill"> Fill</label>
           <label><input type="radio" name="method" value="top"> Top</label>
-          <label><input type="radio" name="method" value="sink"> Sink</label>
+            <label>Dash 
+            <button type="button" onclick="changeDash(-1)">-</button>
+            <input type="number" id="dash-quantity" name="method" value="0" min="0">
+            <button type="button" onclick="changeDash(1)">+</button>
+            </label>
+            <script>
+            function changeDash(amount) {
+            var input = document.getElementById('dash-quantity');
+            var currentValue = parseInt(input.value);
+            if (!isNaN(currentValue)) {
+            input.value = Math.max(0, currentValue + amount);
+            }
+            }
+            </script>
+          <label>Barspoon 
+          <button type="button" onclick="changeBarspoon(-1)">-</button>
+          <input type="number" id="barspoon-quantity" name="method" value="0" min="0">
+          <button type="button" onclick="changeBarspoon(1)">+</button>
+          </label>
+          <script>
+          function changeBarspoon(amount) {
+            var input = document.getElementById('barspoon-quantity');
+            var currentValue = parseInt(input.value);
+            if (!isNaN(currentValue)) {
+            input.value = Math.max(0, currentValue + amount);
+            }
+          }
+          </script>
         </div>
       </section>
       <section class="cocktail-options">
         <h2>COCKTAIL</h2>
         <div class="ice">
-          <label><input type="radio" name="ice" value="yes"> Icecube? Yes</label>
+          <label> Icecube: <input type="radio" name="ice" value="yes">Yes</label>
           <label><input type="radio" name="ice" value="no"> No</label>
         </div>
         <div class="method">
-          <label><input type="radio" name="cocktail-method" value="shake"> Shake</label>
+          <label> Technique: <input type="radio" name="cocktail-method" value="shake"> Shake</label>
           <label><input type="radio" name="cocktail-method" value="shake-n-strain"> Shake n strain</label>
           <label><input type="radio" name="cocktail-method" value="build"> Build</label>
           <label><input type="radio" name="cocktail-method" value="fine-strain"> Shake n fine strain</label>
+          <label><input type="radio" name="cocktail-method" value="fine-strain"> Shake n julep strain</label>
         </div>
         <div class="glass-type">
-          <label><input type="radio" name="glass-type" value="rocks"> Rocks</label>
+          <label> Glass: <input type="radio" name="glass-type" value="rocks"> Rocks</label>
           <label><input type="radio" name="glass-type" value="highball"> Highball</label>
           <label><input type="radio" name="glass-type" value="martini"> Martini</label>
-          <label><input type="radio" name="glass-type" value="chilled-martini"> Chilled martini</label>
+          <label><input type="radio" name="glass-type" value="chilled-martini"> Chilled martini / Coupe</label>
         </div>
       </section>
     </main>
