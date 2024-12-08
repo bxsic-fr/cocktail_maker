@@ -43,4 +43,27 @@
         return $result->fetch_assoc();
     }
 
+    function get_cocktail_by_id($id) {
+        global $conn;
+        $sql = "SELECT * FROM cocktails WHERE id = $id";
+        $result = $conn->query($sql);
+        return $result->fetch_assoc();
+    }
+
+    function getall_elements() {
+        global $conn;
+        $sql = "SELECT * FROM elements";
+        $result = $conn->query($sql);
+        return $result->fetch_all(MYSQLI_ASSOC);
+    }
+
+    // function renderimage_from_blob($blob) {
+    //     $image = imagecreatefromstring($blob);
+    //     ob_start();
+    //     imagejpeg($image);
+    //     $contents = ob_get_contents();
+    //     ob_end_clean();
+    //     return "data:image/jpeg;base64," . base64_encode($contents);
+    //   }
+
 ?>

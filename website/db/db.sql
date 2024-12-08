@@ -1,6 +1,6 @@
 CREATE TABLE elements (
     name VARCHAR(255),
-    photo BLOB
+    photo VARCHAR(255), 
 );
 
 CREATE TABLE cocktails (
