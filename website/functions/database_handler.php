@@ -43,6 +43,13 @@
         return $result->fetch_assoc();
     }
 
+    function get_cocktail_by_id($id) {
+        global $conn;
+        $sql = "SELECT * FROM cocktails WHERE id = $id";
+        $result = $conn->query($sql);
+        return $result->fetch_assoc();
+    }
+
     function getall_elements() {
         global $conn;
         $sql = "SELECT * FROM elements";
